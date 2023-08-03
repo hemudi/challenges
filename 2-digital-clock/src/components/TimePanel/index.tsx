@@ -4,7 +4,7 @@ import Separator from './Separator';
 interface TimePanel {
   hours: number;
   minutes: number;
-  period: 'AM' | 'PM' | null;
+  period?: 'AM' | 'PM' | null;
 }
 
 const TimePanel = ({ hours, minutes, period }: TimePanel) => {
@@ -19,7 +19,7 @@ const TimePanel = ({ hours, minutes, period }: TimePanel) => {
       </div>
       {period && (
         <div className="flex flex-col text-right">
-          <span className="text-2xl text-cyan-500">{period}</span>
+          {period && <span className="text-2xl text-cyan-500">{period}</span>}
         </div>
       )}
     </div>
