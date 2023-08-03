@@ -12,7 +12,7 @@ export default meta;
 type Story = StoryObj<typeof TimePanel>;
 export const Default: Story = {
   args: {
-    hour: 24,
-    minute: 24,
+    hours: 24,
+    minutes: 24,
   },
 };

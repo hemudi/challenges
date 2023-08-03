@@ -8,7 +8,7 @@ interface SegmentProps {
 
 const colorStyle = {
   on: 'bg-cyan-500',
-  off: 'bg-slate-300',
+  off: 'bg-slate-800',
 };
 
 const alignStyle = {
