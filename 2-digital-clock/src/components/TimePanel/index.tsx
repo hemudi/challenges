@@ -1,10 +1,11 @@
+import { TimePeriod } from '../../constants/clock';
 import DigitalNumber from '../DigitalNumber';
 import Separator from './Separator';
 
 interface TimePanel {
   hours: number;
   minutes: number;
-  period?: 'AM' | 'PM' | null;
+  period?: TimePeriod;
 }
 
 const TimePanel = ({ hours, minutes, period }: TimePanel) => {

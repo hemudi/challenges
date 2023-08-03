@@ -2,25 +2,20 @@ import { FormEvent, useEffect, useState } from 'react';
 import TimePanel from '../TimePanel';
 import ToggleButton from '../ToggleButton';
 import Button from '../Button';
-import {
-  HourFormat,
-  Time,
-  addOneSecond,
-  getCurrentTime,
-} from '../../utils/time';
+import { addOneSecond, getCurrentTime } from '../../utils/time';
 import useInterval from '../../hooks/useInterval';
-
-type ClockMode = 'CLOCK' | 'TIMER';
-
-const CLOCK_MODE = 'CLOCK';
-const TIMER_MODE = 'TIMER';
-
-const HOUR_FORMAT_12 = 12;
-const HOUR_FORMAT_24 = 24;
-
-const START_STATUS = 'START';
-const STOP_STATUS = 'STOP';
-const RESET_STATUS = 'RESET';
+import {
+  ClockMode,
+  HOUR_FORMAT_12,
+  HOUR_FORMAT_24,
+  HourFormat,
+  MODE_CLOCK,
+  MODE_TIMER,
+  STATUS_RESET,
+  STATUS_START,
+  STATUS_STOP,
+  Time,
+} from '../../constants/clock';
 
 const initTime: Time = {
   hours: 0,
@@ -30,7 +25,7 @@ const initTime: Time = {
 
 const Clock = () => {
   const [isStart, setIsStart] = useState<boolean>(false);
-  const [mode, setMode] = useState<ClockMode>(CLOCK_MODE);
+  const [mode, setMode] = useState<ClockMode>(MODE_CLOCK);
   const [hourFormat, setHourFormat] = useState<HourFormat>(HOUR_FORMAT_12);
   const [{ hours, minutes, period }, setTime] = useState<Time>(initTime);
 
@@ -43,12 +38,12 @@ const Clock = () => {
   };
 
   useEffect(() => {
-    if (mode === CLOCK_MODE) {
+    if (mode === MODE_CLOCK) {
       setTime(getCurrentTime(hourFormat));
       setIsStart(true);
       return;
     }
-    if (mode === TIMER_MODE) {
+    if (mode === MODE_TIMER) {
       setTime(initTime);
       setIsStart(false);
       return;
@@ -56,7 +51,7 @@ const Clock = () => {
   }, [mode, hourFormat]);
 
   useInterval(
-    mode === CLOCK_MODE ? handleClockMode : handleTimerMode,
+    mode === MODE_CLOCK ? handleClockMode : handleTimerMode,
     1000,
     !isStart,
   );
@@ -64,7 +59,7 @@ const Clock = () => {
   const modeToggleHandler = ({
     currentTarget,
   }: FormEvent<HTMLInputElement>) => {
-    currentTarget.checked ? setMode(TIMER_MODE) : setMode(CLOCK_MODE);
+    currentTarget.checked ? setMode(MODE_TIMER) : setMode(MODE_CLOCK);
   };
 
   return (
@@ -73,13 +68,13 @@ const Clock = () => {
       <div className="flex w-full justify-between p-2">
         <div className="flex w-fit flex-col">
           <div className="flex w-full justify-between">
-            <span>{CLOCK_MODE}</span>
-            <span>{TIMER_MODE}</span>
+            <span>{MODE_CLOCK}</span>
+            <span>{MODE_TIMER}</span>
           </div>
           <ToggleButton onChange={modeToggleHandler} />
         </div>
         <div className="flex w-fit gap-2 rounded text-xl">
-          {mode === CLOCK_MODE ? (
+          {mode === MODE_CLOCK ? (
             <>
               <Button onClick={() => setHourFormat(HOUR_FORMAT_12)}>
                 {HOUR_FORMAT_12}
@@ -90,15 +85,15 @@ const Clock = () => {
             </>
           ) : (
             <>
-              <Button onClick={() => setIsStart(true)}>{START_STATUS}</Button>
-              <Button onClick={() => setIsStart(false)}>{STOP_STATUS}</Button>
+              <Button onClick={() => setIsStart(true)}>{STATUS_START}</Button>
+              <Button onClick={() => setIsStart(false)}>{STATUS_STOP}</Button>
               <Button
                 onClick={() => {
                   setTime(initTime);
                   setIsStart(false);
                 }}
               >
-                {RESET_STATUS}
+                {STATUS_RESET}
               </Button>
             </>
           )}

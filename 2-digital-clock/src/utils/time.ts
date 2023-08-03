@@ -1,10 +1,4 @@
-export type HourFormat = 12 | 24;
-
-export interface Time {
-  hours: number;
-  minutes: number;
-  period?: 'AM' | 'PM' | null;
-}
+import { HourFormat, Time } from '../constants/clock';
 
 export const getCurrentTime = (hourFormat: HourFormat): Time => {
   const today = new Date();
