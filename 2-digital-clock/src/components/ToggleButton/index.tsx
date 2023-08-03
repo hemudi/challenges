@@ -24,7 +24,7 @@ const ToggleButton = ({
         onChange={onChangeHandler}
         className="peer sr-only"
       />
-      <div className="peer h-11 w-32 rounded bg-cyan-500 after:absolute after:left-[3.5px] after:top-[4px] after:h-9 after:w-16 after:rounded after:border after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-14 peer-focus:outline-none"></div>
+      <div className="peer h-11 w-32 rounded bg-on after:absolute after:left-[3.5px] after:top-[4px] after:h-9 after:w-16 after:rounded after:border after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-14 peer-focus:outline-none"></div>
     </label>
   );
 };

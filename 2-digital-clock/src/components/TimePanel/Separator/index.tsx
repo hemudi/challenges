@@ -2,8 +2,8 @@ import { useState } from 'react';
 import useInterval from '../../../hooks/useInterval';
 
 const colorStyle = {
-  on: 'bg-cyan-500',
-  off: 'bg-slate-800',
+  on: 'bg-on',
+  off: 'bg-off',
 };
 
 const Separator = () => {

@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button = ({ children, ...props }: ButtonProps) => {
   return (
     <button
-      className="h-full w-20 rounded p-3 text-white enabled:bg-cyan-500 enabled:hover:bg-cyan-600 enabled:active:bg-cyan-500"
+      className="h-full w-20 rounded p-3 text-white enabled:bg-on enabled:hover:bg-on-dark enabled:active:bg-on"
       {...props}
     >
       {children}

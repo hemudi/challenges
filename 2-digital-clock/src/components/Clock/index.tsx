@@ -77,7 +77,7 @@ const Clock = () => {
   };
 
   return (
-    <div className="flex w-fit flex-col items-center justify-center rounded-xl border-2 bg-cyan-50 p-6">
+    <div className="flex w-fit flex-col items-center justify-center rounded-xl border-2 bg-on-light p-6">
       <TimePanel hours={hours} minutes={minutes} period={period} />
       <div className="flex w-full justify-between p-2">
         <div className="flex w-fit flex-col">
