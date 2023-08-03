@@ -4,10 +4,10 @@ import Separator from './Separator';
 interface TimePanel {
   hours: number;
   minutes: number;
-  description: string[];
+  period: 'AM' | 'PM' | null;
 }
 
-const TimePanel = ({ hours, minutes, description }: TimePanel) => {
+const TimePanel = ({ hours, minutes, period }: TimePanel) => {
   return (
     <div className="flex h-full min-h-fit w-full min-w-fit justify-center gap-8 overflow-hidden rounded-xl bg-black p-8">
       <div className="flex items-center justify-center gap-5">
@@ -17,13 +17,11 @@ const TimePanel = ({ hours, minutes, description }: TimePanel) => {
         <DigitalNumber value={Math.floor(minutes / 10)} />
         <DigitalNumber value={Math.floor(minutes % 10)} />
       </div>
-      <div className="flex flex-col text-right">
-        {description?.map((value, index) => (
-          <span key={value + index} className="text-2xl text-cyan-500">
-            {value}
-          </span>
-        ))}
-      </div>
+      {period && (
+        <div className="flex flex-col text-right">
+          <span className="text-2xl text-cyan-500">{period}</span>
+        </div>
+      )}
     </div>
   );
 };
