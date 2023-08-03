@@ -1,9 +1,9 @@
-import Segment from './components/Segment';
+import Clock from './components/Clock';
 
 function App() {
   return (
-    <div className="App">
-      <Segment value={1} align="vertical" />
+    <div className="App flex h-screen w-full items-center justify-center">
+      <Clock />
     </div>
   );
 }
