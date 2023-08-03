@@ -1,5 +1,6 @@
 export type HourFormat = 12 | 24;
 export type ClockMode = 'CLOCK' | 'TIMER';
+export type TimerStatus = 'START' | 'STOP' | 'RESET';
 export type TimePeriod = 'AM' | 'PM' | null;
 
 export interface Time {
