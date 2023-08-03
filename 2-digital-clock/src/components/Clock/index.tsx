@@ -2,7 +2,12 @@ import { FormEvent, useEffect, useState } from 'react';
 import TimePanel from '../TimePanel';
 import ToggleButton from '../ToggleButton';
 import Button from '../Button';
-import { HourFormat, Time, getCurrentTime } from '../../utils/time';
+import {
+  HourFormat,
+  Time,
+  addOneSecond,
+  getCurrentTime,
+} from '../../utils/time';
 import useInterval from '../../hooks/useInterval';
 
 type ClockMode = 'CLOCK' | 'TIMER';
@@ -12,6 +17,10 @@ const TIMER_MODE = 'TIMER';
 
 const HOUR_FORMAT_12 = 12;
 const HOUR_FORMAT_24 = 24;
+
+const START_STATUS = 'START';
+const STOP_STATUS = 'STOP';
+const RESET_STATUS = 'RESET';
 
 const initTime: Time = {
   hours: 0,
@@ -25,15 +34,29 @@ const Clock = () => {
   const [hourFormat, setHourFormat] = useState<HourFormat>(HOUR_FORMAT_12);
   const [{ hours, minutes, period }, setTime] = useState<Time>(initTime);
 
+  const handleClockMode = () => {
+    setTime(getCurrentTime(hourFormat));
+  };
+
+  const handleTimerMode = () => {
+    setTime((prevTime) => addOneSecond(prevTime));
+  };
+
   useEffect(() => {
-    setTime(mode === CLOCK_MODE ? getCurrentTime(hourFormat) : initTime);
-    setIsStart(true);
+    if (mode === CLOCK_MODE) {
+      setTime(getCurrentTime(hourFormat));
+      setIsStart(true);
+      return;
+    }
+    if (mode === TIMER_MODE) {
+      setTime(initTime);
+      setIsStart(false);
+      return;
+    }
   }, [mode, hourFormat]);
 
   useInterval(
-    () => {
-      setTime(mode === CLOCK_MODE ? getCurrentTime(hourFormat) : initTime);
-    },
+    mode === CLOCK_MODE ? handleClockMode : handleTimerMode,
     1000,
     !isStart,
   );
@@ -56,12 +79,29 @@ const Clock = () => {
           <ToggleButton onChange={modeToggleHandler} />
         </div>
         <div className="flex w-fit gap-2 rounded text-xl">
-          <Button onClick={() => setHourFormat(HOUR_FORMAT_12)}>
-            {HOUR_FORMAT_12}
-          </Button>
-          <Button onClick={() => setHourFormat(HOUR_FORMAT_24)}>
-            {HOUR_FORMAT_24}
-          </Button>
+          {mode === CLOCK_MODE ? (
+            <>
+              <Button onClick={() => setHourFormat(HOUR_FORMAT_12)}>
+                {HOUR_FORMAT_12}
+              </Button>
+              <Button onClick={() => setHourFormat(HOUR_FORMAT_24)}>
+                {HOUR_FORMAT_24}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button onClick={() => setIsStart(true)}>{START_STATUS}</Button>
+              <Button onClick={() => setIsStart(false)}>{STOP_STATUS}</Button>
+              <Button
+                onClick={() => {
+                  setTime(initTime);
+                  setIsStart(false);
+                }}
+              >
+                {RESET_STATUS}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>
