@@ -1,4 +1,4 @@
-import Segment, { SegmentStatus } from '../Segment';
+import Segment, { SegmentStatus } from './Segment';
 
 interface DigitalNumberProps {
   value: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -26,7 +26,7 @@ const isVertical = (value: number) => value % 3 === 0;
 
 const DigitalNumber = ({ value, disabled = false }: DigitalNumberProps) => {
   return (
-    <div className="flex flex-wrap w-20 h-36 justify-between gap-1">
+    <div className="flex h-36 w-20 flex-wrap justify-between gap-1">
       {numberPattern[value].map((status, index) => (
         <Segment
           key={index}
