@@ -9,7 +9,7 @@ const colorStyle = {
 const Separator = () => {
   const [isOn, setIsOn] = useState<boolean>(false);
 
-  useInterval(() => setIsOn((prev) => !prev), 1000, false);
+  useInterval(() => setIsOn((prev) => !prev), 500, false);
 
   return (
     <div className="flex h-full w-3 flex-col justify-around">
