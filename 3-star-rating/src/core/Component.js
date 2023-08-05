@@ -24,7 +24,9 @@ export default class Component {
   mounted() {}
 
   render() {
-    this.$target.innerHTML = this.template();
+    if (this.$target) {
+      this.$target.innerHTML = this.template();
+    }
     this.mounted();
   }
 
