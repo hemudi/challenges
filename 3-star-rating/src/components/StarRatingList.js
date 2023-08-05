@@ -41,4 +41,12 @@ export default class StarRatingList extends Component {
       })
       .join("");
   }
+
+  handleMouseLeave() {
+    this.setState({ hoverValue: 0 });
+  }
+
+  setEvent() {
+    this.$target.addEventListener("mouseleave", this.handleMouseLeave.bind(this));
+  }
 }
