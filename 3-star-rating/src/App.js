@@ -1,4 +1,4 @@
-import Component from "./core/Component.js";
+import Component from "./components/core/Component.js";
 import Message from "./components/Message.js";
 import StarRatingList from "./components/StarRatingList.js";
 

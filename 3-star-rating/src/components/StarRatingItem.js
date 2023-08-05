@@ -1,4 +1,4 @@
-import Component from "../core/Component.js";
+import Component from "./core/Component.js";
 
 const STAR_FILL_VALUE = {
   FULL: "url(#full-star)",

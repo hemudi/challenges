@@ -1,4 +1,4 @@
-import Component from "../core/Component.js";
+import Component from "./core/Component.js";
 import StarRatingItem from "./StarRatingItem.js";
 
 export default class StarRatingList extends Component {

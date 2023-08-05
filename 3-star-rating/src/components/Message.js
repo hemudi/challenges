@@ -1,4 +1,4 @@
-import Component from "../core/Component.js";
+import Component from "./core/Component.js";
 
 const RESULT_MESSAGE = {
   1: "We're sorry to hear that you had a bad experience. We would like to learn more about what happened and how we can make things right.",
