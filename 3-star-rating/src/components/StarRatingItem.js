@@ -31,7 +31,12 @@ export default class StarRatingItem extends Component {
     this.$props.setHoverValue(ratingValue);
   }
 
+  handleClick() {
+    this.$props.setRatingValue(+this.$props.hoverValue);
+  }
+
   setEvent() {
     this.$target.addEventListener("mouseenter", this.handleMouseEnter.bind(this));
+    this.$target.addEventListener("click", this.handleClick.bind(this));
   }
 }
