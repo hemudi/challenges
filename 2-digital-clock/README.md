@@ -5,6 +5,7 @@
 ## 구현 사항
 
 ### digital clock
+
 - [ ] Toggle Switch 버튼을 이용해 clock 모드 또는 timer 모드를 선택할 수 있습니다.
 - [ ] clock 모드의 경우 현재 시간을 보여줍니다.
   - [ ] 12 시간제 또는 24 시간제를 선택할 수 있습니다.
@@ -17,6 +18,7 @@
 - [ ] 두 모드 모두 시간과 분 사이 두 개의 점을 1초마다 깜빡이게 해주세요.
 
 ### 디자인
+
 - [ ] 7segment 디스플레이 U를 구현합니다.
 - [ ] Toggle Switch UI를 구현합니다.
 
@@ -35,7 +37,6 @@
 👇 Timer Mode
 
 <img width="600" alt="스크린샷 2023-07-31 08 23 17" src="https://github.com/FEChallenge/challenges/assets/84956036/c92fd44a-2be5-4467-aa55-fae89c109661">
-
 
 ## 리뷰어 배정
 
