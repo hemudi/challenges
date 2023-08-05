@@ -21,6 +21,7 @@ export default class App extends Component {
       setRatingValue: this.setRatingValue.bind(this),
     };
 
+    new StarRatingList(document.querySelector(".star_rating"), childProps);
     new Message(document.querySelector(".message"), childProps);
   }
 }
