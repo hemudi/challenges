@@ -10,6 +10,7 @@ const RESULT_MESSAGE = {
 
 export default class Message extends Component {
   mounted() {
-    this.$target.textContent = RESULT_MESSAGE[this.$props.ratingValue];
+    const messageId = Math.round(this.$props.ratingValue);
+    this.$target.textContent = RESULT_MESSAGE[messageId];
   }
 }

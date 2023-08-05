@@ -10,6 +10,7 @@ export default class StarRatingList extends Component {
 
   setHoverValue(newValue) {
     if (newValue !== this.$state.hoverValue) {
+      console.log("new Value : ", newValue);
       this.setState({ hoverValue: newValue });
     }
   }
