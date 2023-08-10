@@ -1,5 +1,11 @@
 import { ReactNode, createContext, useContext } from "react";
-import { SLIDER_BUTTON_TYPE, SliderButtonType, SliderStoreState, createSliderStore } from "@store/slider";
+import {
+  SLIDER_ALIGN,
+  SLIDER_BUTTON_TYPE,
+  SliderButtonType,
+  SliderStoreState,
+  createSliderStore,
+} from "@store/slider";
 import { useStore } from "zustand";
 
 interface SliderProps extends Partial<SliderStoreState> {
@@ -28,7 +34,17 @@ const Slider = ({ children, ...state }: SliderProps) => {
 };
 
 const SliderDisplay = ({ children }: { children: ReactNode }) => {
-  const { currentIndex, maxIndex, contentsSize, viewCount, gapSize } = useSliderStore();
+  const { currentIndex, maxIndex, contentsSize, viewCount, gapSize, align } = useSliderStore();
+
+  const getTranslateX = () => {
+    const fullWidth = contentsSize * viewCount + gapSize * (viewCount - 1);
+    if (align === SLIDER_ALIGN.FIRST) return -(currentIndex * (contentsSize + gapSize));
+    if (align === SLIDER_ALIGN.CENTER) {
+      const centerX = +(fullWidth / 2).toFixed(2) - +(contentsSize / 2).toFixed(2);
+      return centerX - (contentsSize + gapSize) * currentIndex;
+    }
+  };
+
   return (
     <div
       className={`relative overflow-hidden`}
@@ -42,7 +58,7 @@ const SliderDisplay = ({ children }: { children: ReactNode }) => {
         style={{
           width: `${(maxIndex + 1) * contentsSize + maxIndex * gapSize}rem`,
           gap: `${gapSize}rem`,
-          transform: `translateX(${-(currentIndex * (contentsSize + gapSize))}rem)`,
+          transform: `translateX(${getTranslateX()}rem)`,
         }}
       >
         {children}
@@ -57,7 +73,7 @@ const SliderButton = ({
   children,
 }: {
   type: SliderButtonType;
-  onClick?: () => void;
+  onClick?: (type: SliderButtonType, currentIndex: number) => void;
   children: ReactNode;
 }) => {
   const { actions, currentIndex, maxIndex } = useSliderStore();
@@ -72,7 +88,7 @@ const SliderButton = ({
   };
 
   const handleOnClick = () => {
-    if (onClick) onClick();
+    if (onClick) onClick(type, currentIndex);
     actions.moveIndex(type);
   };
 

@@ -5,7 +5,13 @@ export const SLIDER_BUTTON_TYPE = {
   RIGHT: "right",
 } as const;
 
+export const SLIDER_ALIGN = {
+  FIRST: "first",
+  CENTER: "center",
+};
+
 export type SliderButtonType = (typeof SLIDER_BUTTON_TYPE)[keyof typeof SLIDER_BUTTON_TYPE];
+export type SliderAlignType = (typeof SLIDER_ALIGN)[keyof typeof SLIDER_ALIGN];
 
 export interface SliderStoreState {
   currentIndex: number;
@@ -13,6 +19,7 @@ export interface SliderStoreState {
   contentsSize: number;
   gapSize: number;
   viewCount: number;
+  align: SliderAlignType;
 }
 
 interface SliderAction {
@@ -30,6 +37,7 @@ const SLIDER_STATE_INIT_DATA: SliderStoreState = {
   contentsSize: 30,
   gapSize: 1,
   viewCount: 1,
+  align: SLIDER_ALIGN.FIRST,
 };
 
 const getNewIndex = (type: SliderButtonType, index: number, maxIndex: number) => {
