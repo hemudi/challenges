@@ -59,3 +59,5 @@ const useImageStore = create<ImageStore>((set) => ({
 export const useImageList = () => useImageStore((state) => state.imageList);
 export const useImageActions = () => useImageStore((state) => state.actions);
 export const useSelectedImageId = () => useImageStore((state) => state.selectedImageId);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const useImageState = () => useImageStore(({ actions, ...state }) => state);
