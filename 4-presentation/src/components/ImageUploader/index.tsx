@@ -2,13 +2,16 @@ import { ChangeEvent } from "react";
 import { useImageActions } from "@store/image";
 
 const LABEL_TEXT = "사진 추가";
-const ALLOW_FILE_EXTENSION = ".png, .jpg";
+const ALLOW_FILE_EXTENSION = [".png", ".jpg"];
 
 const ImageUploader = () => {
   const { addImage } = useImageActions();
 
   const handleImageChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (!target.files || target.files.length === 0) return;
+    const file = target.files[0];
+    const fileExtension = file.name.split(".").pop()?.toLocaleLowerCase();
+    if (ALLOW_FILE_EXTENSION.includes(`.${fileExtension}`)) return;
     addImage(target.files[0]);
   };
 
@@ -24,7 +27,7 @@ const ImageUploader = () => {
         className="hidden"
         id="fileUpload"
         type="file"
-        accept={ALLOW_FILE_EXTENSION}
+        accept={ALLOW_FILE_EXTENSION.join(",")}
         onChange={handleImageChange}
       />
     </div>
