@@ -82,6 +82,7 @@ const SliderPage = () => {
             ))}
         </Slider.Display>
       </Slider>
+      <span className="text-l">{`${selectedImageId + 1} / ${imageList.length}`}</span>
       <ImageUploader />
     </>
   );
