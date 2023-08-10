@@ -41,6 +41,22 @@ const getNewIndex = (type: SliderButtonType, index: number, maxIndex: number) =>
   }
 };
 
+export const createSliderStore = (initState: Partial<SliderStoreState>) =>
+  create<SliderStore>((set) => ({
+    ...SLIDER_STATE_INIT_DATA,
+    ...initState,
+    actions: {
+      moveIndex: (type: SliderButtonType) => {
+        set(({ currentIndex, maxIndex }) => ({
+          currentIndex: getNewIndex(type, currentIndex, maxIndex),
+        }));
+      },
+      setSliderState: (newState: Partial<SliderStoreState>) => {
+        set((state) => ({ ...state, ...newState }));
+      },
+    },
+  }));
+
 const useSliderStore = create<SliderStore>((set) => ({
   ...SLIDER_STATE_INIT_DATA,
   actions: {

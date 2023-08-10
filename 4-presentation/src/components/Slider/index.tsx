@@ -1,33 +1,34 @@
-import { ReactNode, useEffect } from "react";
-import {
-  SLIDER_BUTTON_TYPE,
-  SliderButtonType,
-  SliderStoreState,
-  useSliderState,
-  useSliderStoreActions,
-} from "@store/slider";
+import { ReactNode, createContext, useContext } from "react";
+import { SLIDER_BUTTON_TYPE, SliderButtonType, SliderStoreState, createSliderStore } from "@store/slider";
+import { useStore } from "zustand";
 
 interface SliderProps extends Partial<SliderStoreState> {
   children: ReactNode;
 }
 
+const SliderContext = createContext<ReturnType<typeof createSliderStore> | null>(null);
+
+const useSliderStore = () => {
+  const store = useContext(SliderContext);
+  if (store === null) {
+    throw new Error("no provider");
+  }
+  return useStore(store);
+};
+
 const Slider = ({ children, ...state }: SliderProps) => {
-  const { setSliderState } = useSliderStoreActions();
-
-  useEffect(() => {
-    setSliderState(state);
-  }, [state, setSliderState]);
-
+  const sliderStore = createSliderStore(state);
   return (
-    <div className="flex w-1/3 min-w-fit gap-5 p-5 justify-around items-center border-2 border-purple-400 rounded">
-      {children}
-    </div>
+    <SliderContext.Provider value={sliderStore}>
+      <div className="flex w-1/3 min-w-fit gap-5 p-5 justify-around items-center border-2 border-purple-400 rounded">
+        {children}
+      </div>
+    </SliderContext.Provider>
   );
 };
 
 const SliderDisplay = ({ children }: { children: ReactNode }) => {
-  const { currentIndex, maxIndex, contentsSize, viewCount, gapSize } = useSliderState();
-
+  const { currentIndex, maxIndex, contentsSize, viewCount, gapSize } = useSliderStore();
   return (
     <div
       className={`relative overflow-hidden`}
@@ -59,8 +60,7 @@ const SliderButton = ({
   onClick?: () => void;
   children: ReactNode;
 }) => {
-  const { moveIndex } = useSliderStoreActions();
-  const { currentIndex, maxIndex } = useSliderState();
+  const { actions, currentIndex, maxIndex } = useSliderStore();
 
   const isDisabled = () => {
     if (type === SLIDER_BUTTON_TYPE.LEFT) {
@@ -73,7 +73,7 @@ const SliderButton = ({
 
   const handleOnClick = () => {
     if (onClick) onClick();
-    moveIndex(type);
+    actions.moveIndex(type);
   };
 
   return (
