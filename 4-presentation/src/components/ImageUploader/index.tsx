@@ -11,7 +11,7 @@ const ImageUploader = () => {
     if (!target.files || target.files.length === 0) return;
     const file = target.files[0];
     const fileExtension = file.name.split(".").pop()?.toLocaleLowerCase();
-    if (ALLOW_FILE_EXTENSION.includes(`.${fileExtension}`)) return;
+    if (!ALLOW_FILE_EXTENSION.includes(`.${fileExtension}`)) return;
     addImage(target.files[0]);
   };
 

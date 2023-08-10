@@ -2,7 +2,6 @@ import { create } from "zustand";
 
 interface Image {
   index: number;
-  name: string;
   file: File;
 }
 
@@ -12,7 +11,6 @@ interface ImageStoreState {
 }
 
 interface ImageStoreAction {
-  initImageStore: () => void;
   addImage: (file: File) => void;
   selectImage: (index: number) => void;
   removeImage: (index: number) => void;
@@ -30,12 +28,9 @@ const IMAGE_STORE_INIT_DATA: ImageStoreState = {
 const useImageStore = create<ImageStore>((set) => ({
   ...IMAGE_STORE_INIT_DATA,
   actions: {
-    initImageStore: () => {
-      set(() => ({ ...IMAGE_STORE_INIT_DATA }));
-    },
     addImage: (file: File) => {
       set(({ imageList }) => ({
-        imageList: [...imageList, { index: imageList.length, name: file.name.split(".")[0], file }],
+        imageList: [...imageList, { index: imageList.length, file }],
         selectedIndex: imageList.length,
       }));
     },

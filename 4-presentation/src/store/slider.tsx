@@ -64,22 +64,3 @@ export const createSliderStore = (initState: Partial<SliderStoreState>) =>
       },
     },
   }));
-
-const useSliderStore = create<SliderStore>((set) => ({
-  ...SLIDER_STATE_INIT_DATA,
-  actions: {
-    moveIndex: (type: SliderButtonType) => {
-      set(({ currentIndex, maxIndex }) => ({
-        currentIndex: getNewIndex(type, currentIndex, maxIndex),
-      }));
-    },
-    setSliderState: (newState: Partial<SliderStoreState>) => {
-      set((state) => ({ ...state, ...newState }));
-    },
-  },
-}));
-
-export const useSliderStoreActions = () => useSliderStore((state) => state.actions);
-export const useSliderCurrentIndex = () => useSliderStore(({ currentIndex }) => currentIndex);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useSliderState = () => useSliderStore(({ actions, ...state }) => state);
