@@ -7,14 +7,14 @@ interface Image {
 }
 
 interface ImageStoreState {
-  selectedImage: Image | null;
+  selectedImageId: number;
   imageList: Image[];
 }
 
 interface ImageStoreAction {
   initImageStore: () => void;
   addImage: (file: File) => void;
-  selectImage: (image: Image) => void;
+  selectImageId: (id: number) => void;
   removeImage: (image: Image) => void;
 }
 
@@ -23,7 +23,7 @@ interface ImageStore extends ImageStoreState {
 }
 
 const IMAGE_STORE_INIT_DATA: ImageStoreState = {
-  selectedImage: null,
+  selectedImageId: -1,
   imageList: [],
 };
 
@@ -35,16 +35,22 @@ const useImageStore = create<ImageStore>((set) => ({
     },
     addImage: (file: File) => {
       set(({ imageList }) => ({
-        imageList: [...imageList, { id: imageList.length, name: file.name, file }],
+        imageList: [...imageList, { id: imageList.length, name: file.name.split(".")[0], file }],
+        selectedImageId: imageList.length,
       }));
     },
-    selectImage: (image: Image) => {
-      set(() => ({ selectedImage: image }));
+    selectImageId: (id: number) => {
+      set(() => ({ selectedImageId: id }));
     },
     removeImage: (image: Image) => {
-      set(({ selectedImage, imageList }) => ({
-        selectedImage: image.id === selectedImage?.id ? null : selectedImage,
-        imageList: imageList.filter(({ id }) => image.id !== id),
+      set(({ selectedImageId, imageList }) => ({
+        selectedImageId:
+          image.id === selectedImageId ? IMAGE_STORE_INIT_DATA.selectedImageId : selectedImageId,
+        imageList: imageList.reduce<Image[]>((prev, cur) => {
+          if (cur.id === image.id) return prev;
+          prev.push({ ...cur, id: prev.length });
+          return prev;
+        }, []),
       }));
     },
   },
@@ -52,4 +58,4 @@ const useImageStore = create<ImageStore>((set) => ({
 
 export const useImageList = () => useImageStore((state) => state.imageList);
 export const useImageActions = () => useImageStore((state) => state.actions);
-export const useSelectedImage = () => useImageStore((state) => state.selectedImage);
+export const useSelectedImageId = () => useImageStore((state) => state.selectedImageId);
