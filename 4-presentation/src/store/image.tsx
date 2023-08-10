@@ -1,21 +1,21 @@
 import { create } from "zustand";
 
 interface Image {
-  id: number;
+  index: number;
   name: string;
   file: File;
 }
 
 interface ImageStoreState {
-  selectedImageId: number;
+  selectedIndex: number;
   imageList: Image[];
 }
 
 interface ImageStoreAction {
   initImageStore: () => void;
   addImage: (file: File) => void;
-  selectImageId: (id: number) => void;
-  removeImage: (id: number) => void;
+  selectImage: (index: number) => void;
+  removeImage: (index: number) => void;
 }
 
 interface ImageStore extends ImageStoreState {
@@ -23,7 +23,7 @@ interface ImageStore extends ImageStoreState {
 }
 
 const IMAGE_STORE_INIT_DATA: ImageStoreState = {
-  selectedImageId: -1,
+  selectedIndex: -1,
   imageList: [],
 };
 
@@ -35,19 +35,19 @@ const useImageStore = create<ImageStore>((set) => ({
     },
     addImage: (file: File) => {
       set(({ imageList }) => ({
-        imageList: [...imageList, { id: imageList.length, name: file.name.split(".")[0], file }],
-        selectedImageId: imageList.length,
+        imageList: [...imageList, { index: imageList.length, name: file.name.split(".")[0], file }],
+        selectedIndex: imageList.length,
       }));
     },
-    selectImageId: (id: number) => {
-      set(() => ({ selectedImageId: id }));
+    selectImage: (index: number) => {
+      set(() => ({ selectedIndex: index }));
     },
-    removeImage: (id: number) => {
-      set(({ selectedImageId, imageList }) => ({
-        selectedImageId: id === selectedImageId ? Math.max(selectedImageId - 1, 0) : selectedImageId,
+    removeImage: (index: number) => {
+      set(({ selectedIndex, imageList }) => ({
+        selectedIndex: index === selectedIndex ? Math.max(selectedIndex - 1, 0) : selectedIndex,
         imageList: imageList.reduce<Image[]>((prev, cur) => {
-          if (cur.id === id) return prev;
-          prev.push({ ...cur, id: prev.length });
+          if (cur.index === index) return prev;
+          prev.push({ ...cur, index: prev.length });
           return prev;
         }, []),
       }));

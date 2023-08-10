@@ -2,7 +2,7 @@ import { ChangeEvent } from "react";
 import { useImageActions } from "@store/image";
 
 const LABEL_TEXT = "사진 추가";
-const ALLOW_FILE_EXTENSION = ".png, .jpeg, .webp, .jpg";
+const ALLOW_FILE_EXTENSION = ".png, .jpg";
 
 const ImageUploader = () => {
   const { addImage } = useImageActions();

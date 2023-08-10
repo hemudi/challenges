@@ -10,15 +10,15 @@ const IMAGE_SIZE = {
 };
 
 const SliderPage = () => {
-  const { imageList, selectedImageId } = useImageState();
-  const { selectImageId, removeImage } = useImageActions();
+  const { imageList, selectedIndex } = useImageState();
+  const { selectImage, removeImage } = useImageActions();
 
   const handleSliderButton = (type: SliderButtonType, currentIndex: number) => {
-    selectImageId(type === SLIDER_BUTTON_TYPE.LEFT ? currentIndex - 1 : currentIndex + 1);
+    selectImage(type === SLIDER_BUTTON_TYPE.LEFT ? currentIndex - 1 : currentIndex + 1);
   };
 
   const handleClickImage = (id: number) => {
-    if (id !== selectedImageId) selectImageId(id);
+    if (id !== selectedIndex) selectImage(id);
   };
 
   const handleClickRemove = (id: number) => {
@@ -28,7 +28,7 @@ const SliderPage = () => {
   return (
     <>
       <Slider
-        currentIndex={selectedImageId}
+        currentIndex={selectedIndex}
         maxIndex={imageList.length - 1}
         contentsSize={IMAGE_SIZE.BIG}
         gapSize={1}
@@ -38,9 +38,9 @@ const SliderPage = () => {
         </Slider.Button>
         <Slider.Display>
           {imageList &&
-            imageList.map(({ id, file }) => (
+            imageList.map(({ index, file }) => (
               <li
-                key={id}
+                key={index}
                 className={`flex justify-center items-center`}
                 style={{ width: `${IMAGE_SIZE.BIG}rem`, height: `${IMAGE_SIZE.BIG}rem` }}
               >
@@ -53,7 +53,7 @@ const SliderPage = () => {
         </Slider.Button>
       </Slider>
       <Slider
-        currentIndex={selectedImageId}
+        currentIndex={selectedIndex}
         maxIndex={imageList.length - 1}
         contentsSize={IMAGE_SIZE.SMALL}
         gapSize={1}
@@ -62,18 +62,18 @@ const SliderPage = () => {
       >
         <Slider.Display>
           {imageList &&
-            imageList.map(({ id, file }) => (
+            imageList.map(({ index, file }) => (
               <li
-                key={id}
+                key={index}
                 className={`flex relative group justify-center items-center cursor-pointer border-purple-500 rounded ${
-                  id === selectedImageId ? "border-2" : ""
+                  index === selectedIndex ? "border-2" : ""
                 }`}
                 style={{ width: `${IMAGE_SIZE.SMALL}rem`, height: `${IMAGE_SIZE.SMALL}rem` }}
-                onClick={() => handleClickImage(id)}
+                onClick={() => handleClickImage(index)}
               >
                 <button
                   className="hidden absolute top-1 right-1 group-hover:block bg-red-600 text-white rounded w-6 h-6"
-                  onClick={() => handleClickRemove(id)}
+                  onClick={() => handleClickRemove(index)}
                 >
                   X
                 </button>
@@ -82,7 +82,7 @@ const SliderPage = () => {
             ))}
         </Slider.Display>
       </Slider>
-      <span className="text-l">{`${selectedImageId + 1} / ${imageList.length}`}</span>
+      <span className="text-l">{`${selectedIndex + 1} / ${imageList.length}`}</span>
       <ImageUploader />
     </>
   );
