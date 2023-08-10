@@ -26,7 +26,7 @@ const Slider = ({ children, ...state }: SliderProps) => {
   const sliderStore = createSliderStore(state);
   return (
     <SliderContext.Provider value={sliderStore}>
-      <div className="flex w-1/3 min-w-fit gap-5 p-5 justify-around items-center border-2 border-purple-400 rounded">
+      <div className="flex w-1/3 min-w-fit gap-5 p-5 justify-around items-center border-2 border-purple-500 rounded">
         {children}
       </div>
     </SliderContext.Provider>
