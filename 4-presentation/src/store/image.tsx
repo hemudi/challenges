@@ -15,7 +15,7 @@ interface ImageStoreAction {
   initImageStore: () => void;
   addImage: (file: File) => void;
   selectImageId: (id: number) => void;
-  removeImage: (image: Image) => void;
+  removeImage: (id: number) => void;
 }
 
 interface ImageStore extends ImageStoreState {
@@ -42,12 +42,11 @@ const useImageStore = create<ImageStore>((set) => ({
     selectImageId: (id: number) => {
       set(() => ({ selectedImageId: id }));
     },
-    removeImage: (image: Image) => {
+    removeImage: (id: number) => {
       set(({ selectedImageId, imageList }) => ({
-        selectedImageId:
-          image.id === selectedImageId ? IMAGE_STORE_INIT_DATA.selectedImageId : selectedImageId,
+        selectedImageId: id === selectedImageId ? Math.max(selectedImageId - 1, 0) : selectedImageId,
         imageList: imageList.reduce<Image[]>((prev, cur) => {
-          if (cur.id === image.id) return prev;
+          if (cur.id === id) return prev;
           prev.push({ ...cur, id: prev.length });
           return prev;
         }, []),
