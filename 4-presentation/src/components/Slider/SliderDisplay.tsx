@@ -3,18 +3,25 @@ import { useImageList, useSelectedImageId } from "@store/image";
 
 const CONTENTS_SIZE = 30;
 
+const getListStyle = (selectedId: number, contentsSize: number, contentsCount: number) => {
+  const width = `${(contentsCount || 1) * contentsSize + contentsCount - 1}rem`;
+  const transform =
+    selectedId === 0 ? "translateX(0)" : `translateX(${-(selectedId * contentsSize + selectedId)}rem)`;
+  return {
+    width,
+    transform,
+  };
+};
+
 const SliderDisplay = () => {
   const imageList = useImageList();
   const selectedId = useSelectedImageId();
 
   return (
-    <div className={`relative w-[30rem] h-[30rem] overflow-hidden`}>
+    <div className={`relative w-[30rem] h-[30rem] overflow-hidden border`}>
       <ul
-        style={{
-          width: `${(imageList.length || 1) * CONTENTS_SIZE}rem`,
-          transform: `translateX(${-(selectedId * (100 / imageList.length))}%)`,
-        }}
-        className={`flex h-full items-center transition duration-150 ease-in`}
+        style={getListStyle(selectedId, CONTENTS_SIZE, imageList.length)}
+        className={`flex h-full items-center transition duration-150 ease-in gap-4`}
       >
         {imageList &&
           imageList.map(({ id, file }) => (
